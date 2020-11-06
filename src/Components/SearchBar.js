@@ -1,22 +1,12 @@
 import React, {useState} from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, FormGroup, Label, Button } from 'reactstrap';
+const DatePicker = require("reactstrap-date-picker");
 
 const SearchBar = (props) => {
     const [dropdownToOpen, setDropdownToOpen] = useState(false);
     const [dropdownFromOpen, setDropdownFromOpen] = useState(false);
-/*     const [to, setTo] = useState('');
-    const [from, setFrom] = useState(''); */
-
-    const toggleTo = () => setDropdownToOpen(prevState => !prevState);
+    const toggleTo = () => setDropdownToOpen(!dropdownToOpen);
     const toggleFrom = () => setDropdownFromOpen(!dropdownFromOpen);
-
-/*     const handleToChange = (e) => {
-        setTo(e.currentTarget.name);
-    }
-
-    const handleFromChange = (e) => {
-        setFrom(e.currentTarget.name);
-    } */
 
     return (
         <div className="search-bar">
@@ -42,6 +32,21 @@ const SearchBar = (props) => {
                     <DropdownItem onClick={props.handleFromChange} name='LGW'>LGW</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
+
+            <FormGroup>
+                <Label>Select date FROM</Label>
+                <DatePicker id = "date-from" value = {props.dateFromValue} onChange= {(v,f) => props.handleFromDateChange(v, f)} />
+            </FormGroup>
+
+            <FormGroup>
+                <Label>Select date TO</Label>
+                <DatePicker id = "date-to" value = {props.dateToValue} onChange= {(v,f) => props.handleToDateChange(v, f)} />
+            </FormGroup>
+
+            <Button color="success" onClick={props.handleSubmit}>Search</Button>
+
+
+
         </div>
     )
 
