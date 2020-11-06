@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
 import SearchBar from './Components/SearchBar';
+import SearchResults from './Components/SearchResults';
 import { useState, useEffect } from 'react';
+
 
 const App = () => {
   const [flights, setFlights] = useState([]);
@@ -58,7 +60,9 @@ const App = () => {
                  dateToValue={dateToValue}
                  handleSubmit={handleSubmit}/>      
 
+      <SearchResults flights={flights}/>
     </div>
+
   );
 }
 
