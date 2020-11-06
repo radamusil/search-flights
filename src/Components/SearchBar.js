@@ -4,19 +4,19 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 const SearchBar = (props) => {
     const [dropdownToOpen, setDropdownToOpen] = useState(false);
     const [dropdownFromOpen, setDropdownFromOpen] = useState(false);
-    const [to, setTo] = useState('');
-    const [from, setFrom] = useState('');
+/*     const [to, setTo] = useState('');
+    const [from, setFrom] = useState(''); */
 
     const toggleTo = () => setDropdownToOpen(prevState => !prevState);
     const toggleFrom = () => setDropdownFromOpen(!dropdownFromOpen);
 
-    const handleToChange = (e) => {
+/*     const handleToChange = (e) => {
         setTo(e.currentTarget.name);
     }
 
     const handleFromChange = (e) => {
         setFrom(e.currentTarget.name);
-    }
+    } */
 
     return (
         <div className="search-bar">
@@ -27,8 +27,8 @@ const SearchBar = (props) => {
                     To
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem onClick={handleToChange} name='PRG'>PRG</DropdownItem>
-                    <DropdownItem onClick={handleToChange} name='LGW'>LGW</DropdownItem>
+                    <DropdownItem onClick={props.handleToChange} name='PRG'>PRG</DropdownItem>
+                    <DropdownItem onClick={props.handleToChange} name='LGW'>LGW</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
 
@@ -38,8 +38,8 @@ const SearchBar = (props) => {
                     From
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem onClick={handleFromChange} name='PRG'>PRG</DropdownItem>
-                    <DropdownItem onClick={handleFromChange} name='LGW'>LGW</DropdownItem>
+                    <DropdownItem onClick={props.handleFromChange} name='PRG'>PRG</DropdownItem>
+                    <DropdownItem onClick={props.handleFromChange} name='LGW'>LGW</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </div>
