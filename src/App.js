@@ -15,11 +15,11 @@ const App = () => {
 
   const handleToChange = (e) => {
     setTo(e.currentTarget.name);    
-    }  
+  }  
 
   const handleFromChange = (e) => {
-            setFrom(e.currentTarget.name);
-            }
+    setFrom(e.currentTarget.name);
+  }
 
   const handleFromDateChange = (value, formattedValue) => {
       setDateFromFormatted(formattedValue);
