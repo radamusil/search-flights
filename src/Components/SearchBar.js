@@ -5,6 +5,8 @@ const DatePicker = require("reactstrap-date-picker");
 const SearchBar = (props) => {
     const [fromLocations, setFromLocations] = useState([]);
     const [toLocations, setToLocations] = useState([]);
+    const [fromWhispererHidden, setFromWhispererHidden] = useState(false);
+    const [toWhispererHidden, setToWhispererHidden] = useState(false);
 
     const fetchFromLocations = async (searchString = '') => {
         const urlFrom = `https://api.skypicker.com/locations?term=${searchString}&locale=en-US&location_types=airport&limit=10&active_only=true&sort=name`;
@@ -27,6 +29,7 @@ const SearchBar = (props) => {
     }
 
     const handleFromInputChange = (e) => {
+        setFromWhispererHidden(false);
         if (e.target.value.length >= 3) {
             fetchFromLocations(e.target.value);
         }
@@ -37,8 +40,19 @@ const SearchBar = (props) => {
         if (e.target.value.length >= 3) {
             fetchToLocations(e.target.value);
         } 
-    }    
+    } 
+    
+    const handleItemFromClick = (e) => {
+        setFromWhispererHidden(!fromWhispererHidden);
 
+    }
+    
+    const handleItemToClick = (e) => {
+        setToWhispererHidden(!toWhispererHidden);
+
+    }
+
+    
     
 
     // useEffect(() => {
@@ -54,7 +68,7 @@ const SearchBar = (props) => {
                 <InputGroupAddon addonType="prepend">
                 <InputGroupText>From</InputGroupText>
                 </InputGroupAddon>
-                <Input placeholder="from where" onChange={handleFromInputChange} />
+                <Input placeholder="from where you go" onChange={handleFromInputChange} />
             </InputGroup>
             {
                 fromLocations.locations && fromLocations.locations.map((location, index) => (
@@ -71,12 +85,11 @@ const SearchBar = (props) => {
                 <Input placeholder="where you wanna go" onChange={handleToInputChange} />
             </InputGroup>
             
-            {
-                toLocations.locations && toLocations.locations.map((location, index) => (
-                            <div key={index} onClick={props.handleToChange} id={location.code}>{location.name}</div>
-                        ))
-            }
-
+                {
+                    toLocations.locations && toLocations.locations.map((location, index) => (
+                                <div key={index} onClick={props.handleToChange} id={location.code}>{location.name}</div>
+                            ))
+                }
         </div>
 
             <FormGroup>
