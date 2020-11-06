@@ -16,11 +16,11 @@ const App = () => {
   const [searchChange, setSearchChange] = useState(false);
 
   const handleToChange = (e) => {
-    setTo(e.currentTarget.name);    
+    setTo(e.currentTarget.id);    
   }  
 
   const handleFromChange = (e) => {
-    setFrom(e.currentTarget.name);
+    setFrom(e.currentTarget.id);
   }
 
   const handleFromDateChange = (value, formattedValue) => {

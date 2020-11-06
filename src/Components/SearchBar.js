@@ -1,25 +1,24 @@
 import React, {useState, useEffect } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, FormGroup, Label, Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, FormGroup, Label, Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 const DatePicker = require("reactstrap-date-picker");
 
 const SearchBar = (props) => {
-    const [dropdownToOpen, setDropdownToOpen] = useState(false);
-    const [dropdownFromOpen, setDropdownFromOpen] = useState(false);
     const [fromLocations, setFromLocations] = useState([]);
     const [toLocations, setToLocations] = useState([]);
-    // cosnt [loading, setLoading] = useState(true);
 
-    const toggleTo = () => setDropdownToOpen(!dropdownToOpen);
-    const toggleFrom = () => setDropdownFromOpen(!dropdownFromOpen);
-
-    const fetchLocations = async () => {
-        const urlFrom = `https://api.skypicker.com/locations?term=praha&locale=en-US&location_types=airport&limit=10&active_only=true&sort=name`;
-        const urlTo = `https://api.skypicker.com/locations?term=PRG&locale=en-US&location_types=airport&limit=10&active_only=true&sort=name`;
+    const fetchFromLocations = async (searchString = '') => {
+        const urlFrom = `https://api.skypicker.com/locations?term=${searchString}&locale=en-US&location_types=airport&limit=10&active_only=true&sort=name`;
         
         // fetching from locations
         const responseFrom = await fetch(urlFrom);
         const locationsFrom = await responseFrom.json();
         responseFrom && locationsFrom && setFromLocations(locationsFrom);
+        
+   
+    }
+
+    const fetchToLocations = async (searchString = '') => {
+        const urlTo = `https://api.skypicker.com/locations?term=${searchString}&locale=en-US&location_types=airport&limit=10&active_only=true&sort=name`;
         
         // fetching to locations
         const responseTo = await fetch(urlTo);
@@ -27,45 +26,58 @@ const SearchBar = (props) => {
         responseTo && locationsTo && setToLocations(locationsTo);
     }
 
-    useEffect(() => {
-        fetchLocations();
-    }, [])
+    const handleFromInputChange = (e) => {
+        if (e.target.value.length >= 3) {
+            fetchFromLocations(e.target.value);
+        }
+
+    } 
+
+    const handleToInputChange = (e) => {
+        if (e.target.value.length >= 3) {
+            fetchToLocations(e.target.value);
+        } 
+    }    
+
+    
+
+    // useEffect(() => {
+    //     fetchLocations();
+    // }, [])
 
     return (
         
         <div className="search-bar">
-          
-            {/* select to airport - passed as a API name of the airport   */}
-            <Dropdown isOpen={dropdownToOpen} toggle={toggleTo}>
-                <DropdownToggle caret>
-                    To
-                </DropdownToggle>
-                <DropdownMenu>
-                    {
-                        // displaying all locations matching the search string, TODO input for search string
-                        fromLocations.locations && fromLocations.locations.map((location, index) => (
-                            <DropdownItem key={index} onClick={props.handleFromChange} name={location.code}>{location.name}</DropdownItem>
+        
+        <div className="input">
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                <InputGroupText>From</InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="from where" onChange={handleFromInputChange} />
+            </InputGroup>
+            {
+                fromLocations.locations && fromLocations.locations.map((location, index) => (
+                            <div key={index} onClick={props.handleFromChange} id={location.code}>{location.name}</div>
                         ))
-                        
-                    }
-                </DropdownMenu>
-            </Dropdown>
+            }
+        </div>
 
-            {/* select from passed as a API name of the airport*/}
-            <Dropdown isOpen={dropdownFromOpen} toggle={toggleFrom}>
-                <DropdownToggle caret>
-                    From
-                </DropdownToggle>
-                <DropdownMenu>
-                    {
-                        // displaying all locations matching the search string, TODO input for search string
-                        toLocations.locations && toLocations.locations.map((location, index) => (
-                            <DropdownItem key={index} onClick={props.handleToChange} name={location.code}>{location.name}</DropdownItem>
+        <div className="input">
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                <InputGroupText>To</InputGroupText>
+                </InputGroupAddon>
+                <Input placeholder="where you wanna go" onChange={handleToInputChange} />
+            </InputGroup>
+            
+            {
+                toLocations.locations && toLocations.locations.map((location, index) => (
+                            <div key={index} onClick={props.handleToChange} id={location.code}>{location.name}</div>
                         ))
-                    }
+            }
 
-                </DropdownMenu>
-            </Dropdown>
+        </div>
 
             <FormGroup>
                 <Label>Select date FROM</Label>
