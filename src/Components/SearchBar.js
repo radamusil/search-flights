@@ -37,22 +37,21 @@ const SearchBar = (props) => {
     } 
 
     const handleToInputChange = (e) => {
+        setToWhispererHidden(false);
         if (e.target.value.length >= 3) {
             fetchToLocations(e.target.value);
         } 
     } 
     
     const handleItemFromClick = (e) => {
+        props.handleFromChange(e);
         setFromWhispererHidden(!fromWhispererHidden);
-
     }
     
-    const handleItemToClick = (e) => {
+    const handleToItemClick = (e) => {
+        props.handleToChange(e);
         setToWhispererHidden(!toWhispererHidden);
-
     }
-
-    
     
 
     // useEffect(() => {
@@ -70,11 +69,13 @@ const SearchBar = (props) => {
                 </InputGroupAddon>
                 <Input placeholder="from where you go" onChange={handleFromInputChange} />
             </InputGroup>
+            <ul hidden={fromWhispererHidden}>
             {
                 fromLocations.locations && fromLocations.locations.map((location, index) => (
-                            <div key={index} onClick={props.handleFromChange} id={location.code}>{location.name}</div>
+                            <div key={index} className="whisperer__link" onClick={handleItemFromClick} id={location.code}>{location.name}</div>
                         ))
             }
+            </ul>
         </div>
 
         <div className="input">
@@ -84,13 +85,15 @@ const SearchBar = (props) => {
                 </InputGroupAddon>
                 <Input placeholder="where you wanna go" onChange={handleToInputChange} />
             </InputGroup>
-            
-                {
-                    toLocations.locations && toLocations.locations.map((location, index) => (
-                                <div key={index} onClick={props.handleToChange} id={location.code}>{location.name}</div>
-                            ))
-                }
+            <ul hidden={toWhispererHidden}>
+            {
+              toLocations.locations && toLocations.locations.map((location, index) => (
+                        <div key={index} className="whisperer__link" onClick={handleToItemClick} id={location.code}>{location.name}</div>
+                    ))
+            }
+            </ul>
         </div>
+       
 
             <FormGroup>
                 <Label>Select date FROM</Label>

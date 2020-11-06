@@ -2,8 +2,14 @@ import React from 'react';
 import { DateTime } from 'luxon';
 
 const SearchResults = (props) => {
+    if (props.loading) {
+        return (
+            <h2>Loading data...</h2>
+        )
+    }
 
     return (
+
         <div className="container_results">
             {props.flights.data && props.flights.data.map(flight => (
                 <div className="result">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import './App.css';
 import SearchBar from './Components/SearchBar';
 import SearchResults from './Components/SearchResults';
@@ -14,6 +14,7 @@ const App = () => {
   const [dateToFormatted, setDateToFormatted] = useState();
   const [dateToValue, setDateToValue] = useState();
   const [searchChange, setSearchChange] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleToChange = (e) => {
     setTo(e.currentTarget.id);    
@@ -42,11 +43,13 @@ const App = () => {
   }, [searchChange]);
 
   const fetchData = async () => {
+    setLoading(true);
     const url = `https://api.skypicker.com/flights?flyFrom=${from}&to=${to}&dateFrom=${dateFromFormatted}&dateTo=${dateToFormatted}&partner=picky&v=3`;
     const response = await fetch(url);
 
     const resp = await response.json();
     setFlights(resp);
+    setLoading(false);
   }
 
 
@@ -60,7 +63,8 @@ const App = () => {
                  dateToValue={dateToValue}
                  handleSubmit={handleSubmit}/>      
 
-      <SearchResults flights={flights}/>
+      <SearchResults flights={flights}
+                     loading={loading}/>
     </div>
 
   );
